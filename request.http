@@ -1,0 +1,10 @@
+
+GET http://localhost:8000/api/subjects HTTP/1.1
+content-type: application/json
+
+{
+    "make":"Toyote",
+    "model":"Pluh",
+    "year": 2020,
+    "price": 15000
+}

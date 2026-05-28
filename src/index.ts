@@ -1,14 +1,25 @@
 import express from "express";
+import cors from "cors";
+
+import subjectsRouter from "./routes/subjects";
 
 const app = express();
 const PORT = 8000;
 
+app.use(cors({
+  origin: process.env.FRONTEND_URL,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}))
+
 app.use(express.json());
 
-app.get("/", (_req, res) => {
-  res.send("Classroom backend is running.");
+app.use('/api/subjects', subjectsRouter)
+
+app.get('/', (req, res) => {
+  res.send('Hello, welcome to the Classroom API!');
 });
 
 app.listen(PORT, () => {
-  console.log(`Server started at http://localhost:${PORT}`);
-});
+  console.log('Server is running at http://localhost:PORT', PORT);
+})
