@@ -9,7 +9,7 @@ const timestamps = {
 export const departments = pgTable('departments',{
     id: integer('id').primaryKey().generatedAlwaysAsIdentity(),
     code: varchar('code', {length: 50}).notNull().unique(),
-    name:  varchar('code', {length: 255}).notNull(),
+    name:  varchar('name', {length: 255}).notNull(),
     description:  varchar('description', {length: 255}),
     ... timestamps
 })
@@ -18,7 +18,7 @@ export const subjects = pgTable('subjects',{
     id: integer('id').primaryKey().generatedAlwaysAsIdentity(),
     departmentId: integer('department_id').notNull()
         .references(() => departments.id, {onDelete: 'restrict'}),
-    name:  varchar('code', {length: 255}).notNull(),
+    name:  varchar('name', {length: 255}).notNull(),
     code: varchar('code', {length: 50}).notNull().unique(),
     description:  varchar('description', {length: 255}),
     ... timestamps
@@ -28,7 +28,8 @@ export const departmentRelations = relations(departments,
     ({many}) => ({subjects: many(subjects)}))
 
 export const subjectsRelation = relations(subjects,
-    ({one, many}) => ({departments: one(departments,
+    ({one, many}) =>
+            ({departments: one(departments,
             {fields: [subjects.departmentId],references:[departments.id]})
     }))
 
